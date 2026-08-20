@@ -1,0 +1,12 @@
+# Data and archives (downloaded from Releases)
+data/
+*.zip
+*.csv
+exports/
+
+# OS & Editor artifacts
+.DS_Store
+*.swp
+*.bak
+.vscode/
+.idea/

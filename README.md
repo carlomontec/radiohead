@@ -85,13 +85,16 @@ RadioheadNew/
 
 ---
 
-## Legal & Licensing
+## Legal, Credits & Licensing
 
-#### Code
-* Original 2008 Processing code: Copyright 2008 Aaron Koblin.
-* Julia 3D Studio & Tools: Copyright 2026 Carlo Monjaraz & Contributors.
-* Licensed under the **Apache License 2.0** (see [`LICENSE`](LICENSE)).
+### Original Project & Data
+* **Music Video**: Radiohead – *"House of Cards"* (2008), directed by James Frost.
+* **Technical Direction & Concept**: [Aaron Koblin](http://www.aaronkoblin.com/work/rh/index.html).
+* **Original Repository & Archive**: [dataarts/radiohead on GitHub](https://github.com/dataarts/radiohead) and the [original Google Code archive](http://web.archive.org/web/20110520215423/http://code.google.com/creative/radiohead/).
+* **Data Copyright**: Copyright 2008 [Radiohead](https://www.radiohead.com).
+* **Data License**: Made available under the [Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License (CC BY-NC-SA 3.0)](https://creativecommons.org/licenses/by-nc-sa/3.0/).
 
-#### Data
-* Data: Copyright 2008 Radiohead.
-* Made available under the **Creative Commons Attribution-Noncommercial-Share Alike 3.0 License (CC BY-NC-SA 3.0)**.
+### Code & Software
+* **Original Processing Code**: Copyright 2008 [Aaron Koblin](http://www.aaronkoblin.com).
+* **Julia 3D Studio & Tools**: Copyright 2026 [Carlo Monjaraz](https://github.com/carlomontec) & Contributors.
+* **Software License**: All code is licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0) (see [`LICENSE`](LICENSE)).

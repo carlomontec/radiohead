@@ -5,6 +5,7 @@ using GeometryBasics
 using Colors
 using ..DataLoader
 using ..TouchDesignerExport
+using ..VideoExporter
 
 export launch_viewer
 
@@ -276,14 +277,16 @@ function launch_viewer(; data_dir::String="data", start_frame::Int=1)
         intensity_min[] = Float32(val)
     end
     
-    # Section: TouchDesigner Pipeline Exporter
+    # Section: TouchDesigner & Video Exporters
     row += 1
-    Label(sidebar[row, 1:2], "4. TOUCHDESIGNER EXPORT", font = :bold, color = RGBf(0.4, 0.8, 1.0), justification = :left, halign = :left)
+    Label(sidebar[row, 1:2], "4. EXPORT PIPELINE", font = :bold, color = RGBf(0.4, 0.8, 1.0), justification = :left, halign = :left)
     row += 1
     
-    exp_frame_btn = Button(sidebar[row, 1:2], label = "Export Current Frame (.PLY)")
+    exp_frame_btn = Button(sidebar[row, 1], label = "Frame (.PLY)")
+    exp_seq_btn = Button(sidebar[row, 2], label = "Next 100 (.PLY)")
     row += 1
-    exp_seq_btn = Button(sidebar[row, 1:2], label = "Export Next 100 Frames (.PLY)")
+    
+    exp_vid_btn = Button(sidebar[row, 1:2], label = "Render Full MP4 (Audio Synced)")
     row += 1
     
     on(exp_frame_btn.clicks) do _
@@ -291,7 +294,7 @@ function launch_viewer(; data_dir::String="data", start_frame::Int=1)
         mkpath(out_dir)
         filename = joinpath(out_dir, "frame_$(current_frame[]).ply")
         TouchDesignerExport.export_ply(filename, raw_pcd[]; binary=true)
-        status_message[] = "Saved: $filename (Ready for Point File In)"
+        status_message[] = "Saved: $filename"
         println("Exported current frame to $filename")
     end
     
@@ -303,7 +306,33 @@ function launch_viewer(; data_dir::String="data", start_frame::Int=1)
         status_message[] = "Exporting frames $sf to $ef..."
         @async begin
             TouchDesignerExport.export_sequence_ply(out_dir, sf, ef; data_dir=data_dir, binary=true)
-            status_message[] = "Sequence exported: $sf to $ef in $out_dir"
+            status_message[] = "Sequence exported to $out_dir"
+        end
+    end
+    
+    on(exp_vid_btn.clicks) do _
+        status_message[] = "Rendering MP4 video with audio (this may take ~1-2 min)..."
+        @async begin
+            out_file = joinpath("exports", "radiohead_house_of_cards_30fps.mp4")
+            try
+                VideoExporter.render_animation_video(
+                    out_file;
+                    data_dir = data_dir,
+                    audio_path = joinpath(data_dir, "HouseOfCards_DataSample.mp3"),
+                    start_frame = 1,
+                    end_frame = total_frames,
+                    framerate = 30,
+                    resolution = (1920, 1080),
+                    colormap = selected_colormap[],
+                    markersize = marker_size[],
+                    min_intensity = max(15.0f0, intensity_min[]),
+                    camera_mode = :subtle_orbit
+                )
+                status_message[] = "MP4 Video saved to $out_file!"
+            catch e
+                status_message[] = "Render error: $(e)"
+                @error "Video export failed" exception=(e, catch_backtrace())
+            end
         end
     end
     

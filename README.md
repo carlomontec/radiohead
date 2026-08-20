@@ -1,100 +1,50 @@
-![](https://github.com/dataarts/radiohead/blob/master/HoC_image_grid.png?raw=true)
-
 # RADIOHEAD / HOUSE OF CARDS – 3D Point Cloud Studio
 
-This repository contains tools and data for Radiohead's [House of Cards](https://www.youtube.com/watch?v=8nTFjVm9sTQ) (2008) music video, created without physical cameras using 3D structured-light optical scanning (Geometric Informatics) and 360-degree LiDAR rangefinders (Velodyne).
+A modern high-performance 3D visualization and video rendering suite in **Julia** for the open-source dataset from Radiohead's groundbreaking [House of Cards](https://www.youtube.com/watch?v=8nTFjVm9sTQ) (2008) music video, created entirely without physical cameras using 3D structured-light optical scanning and 360-degree LiDAR rangefinders.
 
-This modern fork introduces an interactive **Julia & GLMakie 3D Point Cloud Studio** and an export pipeline for **TouchDesigner**.
+---
+
+## Visual Previews
+
+| Thom Yorke (3D Facial Point Cloud) | City 360° LiDAR Scan | Cul-de-sac LiDAR Environment |
+| :---: | :---: | :---: |
+| <img src="docs/images/thom_portrait.png" width="260"/> | <img src="docs/images/city_lidar.png" width="260"/> | <img src="docs/images/culdesac_lidar.png" width="260"/> |
+
+---
+
+## Quickstart
+
+### 1. Launch the Interactive 3D Studio
+```bash
+julia --project=. run_viewer.jl
+```
+Explore 2,101 frames of Thom Yorke's performance, scrub through the timeline, switch between LiDAR scans, and tweak real-time colormaps and noise filters.
+
+### 2. Render 30 FPS MP4 Video (with Synced Audio)
+```bash
+julia --project=. export_video.jl
+```
+Renders the full sequence with customizable camera orbit, perspective depth, and automatic FFmpeg audio synchronization driven by [`render_config.toml`](render_config.toml).
+
+---
+
+## Documentation
+
+For full setup instructions, TOML configuration parameters, and TouchDesigner pipelines:
+
+**[Read the Complete Technical Guide (docs/GUIDE.md)](docs/GUIDE.md)**
 
 ---
 
 ## AI-Assisted Development Note
 
-The Julia 3D Studio, high-performance data loader, and TouchDesigner export pipeline in this fork were generated using **Gemini 3.7 Flash** (Google DeepMind) in pair-programming collaboration with Carlo Monjaraz. 
-
-This project serves as an experimental case study in AI-assisted coding—demonstrating how modern reasoning models can inspect legacy creative coding archives (originally written in Processing 1.0 in 2008), modernize data structures, and build high-performance scientific/creative computing tools in Julia.
+This Julia 3D Studio, high-speed data loader, video export engine, and TouchDesigner integration were developed using **Gemini 3.7 Flash** (Google DeepMind) in pair-programming collaboration with Carlo Monjaraz as an exploratory case study in modernizing legacy creative coding datasets.
 
 ---
 
-## Quickstart: Julia 3D Studio
+## Credits & License
 
-### 1. Prerequisites
-Install [Julia](https://julialang.org/downloads/) (v1.10+ recommended).
-
-### 2. Download the Data
-Download and extract the dataset releases into a `data/` directory:
-* [HoC_AnimationData1_v1.0.zip](https://github.com/dataarts/radiohead/releases/download/v1.0.0/HoC_AnimationData1_v1.0.zip) (Thom Yorke singing, Part 1)
-* [HoC_AnimationData2_v1.0.zip](https://github.com/dataarts/radiohead/releases/download/v1.0.0/HoC_AnimationData2_v1.0.zip) (Thom Yorke singing, Part 2)
-* [HoC_DataApplications_v1.0.zip](https://github.com/dataarts/radiohead/releases/download/v1.0.0/HoC_DataApplications_v1.0.zip) (LiDAR scans & Processing code)
-
-Extract all CSV frames (`1.csv` to `2101.csv`) directly into `data/`, and place `city.csv` and `culdesac.csv` in `data/SceneViewer/data/`.
-
-### 3. Launch the Studio
-
-```bash
-# Instantiate dependencies and launch
-julia --project=. run_viewer.jl
-```
-
-Or from the Julia REPL:
-```julia
-using Pkg; Pkg.activate(".")
-using RadioheadViewer
-launch_viewer()
-```
-
----
-
-## Studio Features
-
-* **Real-time 3D Animation Playback**: Stream the 2,101 frames of Thom Yorke's performance at 30+ FPS.
-* **Interactive 3D Navigation**: Left-click drag to rotate, right-click drag to pan, scroll wheel to zoom.
-* **Timeline Scrubber & Speed**: Seek to any frame (1 - 2101) with instantaneous in-memory caching.
-* **LiDAR Scans**: Switch seamlessly to explore the 1.36M point `city.csv` and 1.07M point `culdesac.csv` 3D captures.
-* **Visual Shaders & Filters**: Live colormap selection (`turbo`, `viridis`, `plasma`, `inferno`, `coolwarm`, `ice`), point size scaling, and laser intensity noise thresholding.
-
----
-
-## TouchDesigner Export Pipeline
-
-Export point cloud frames directly for use in TouchDesigner:
-1. In the studio sidebar, click **"Export Current Frame (.PLY)"** or **"Export Next 100 Frames (.PLY)"**.
-2. In TouchDesigner:
-   * Add a **Point File In SOP** or **Point File In TOP**.
-   * Set the file path to `exports/touchdesigner/frame_1.ply`.
-   * Directly drive particle systems, GPU feedback networks, and audio-reactive displace shaders.
-
----
-
-## Repository Structure
-
-```
-RadioheadNew/
-├── Project.toml              # Julia environment definition
-├── Manifest.toml             # Pinned package versions
-├── run_viewer.jl             # Studio entry point
-├── src/
-│   ├── DataLoader.jl         # High-speed CSV and LiDAR point cloud parser
-│   ├── TouchDesignerExport.jl # PLY and CSV exporter for TouchDesigner
-│   ├── ViewerApp.jl          # Interactive GLMakie OpenGL GUI studio
-│   └── RadioheadViewer.jl    # Root Julia package module
-├── test/
-│   └── runtests.jl           # Automated integration test suite
-└── LICENSE                   # Apache 2.0 License
-```
-
----
-
-## Legal, Credits & Licensing
-
-### Original Project & Data
-* **Music Video**: Radiohead – *"House of Cards"* (2008), directed by James Frost.
-* **Technical Direction & Concept**: [Aaron Koblin](http://www.aaronkoblin.com/work/rh/index.html).
-* **Original Repository & Archive**: [dataarts/radiohead on GitHub](https://github.com/dataarts/radiohead) and the [original Google Code archive](http://web.archive.org/web/20110520215423/http://code.google.com/creative/radiohead/).
-* **Data Copyright**: Copyright 2008 [Radiohead](https://www.radiohead.com).
-* **Data License**: Made available under the [Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License (CC BY-NC-SA 3.0)](https://creativecommons.org/licenses/by-nc-sa/3.0/).
-
-### Code & Software
-* **Original Processing Code**: Copyright 2008 [Aaron Koblin](http://www.aaronkoblin.com).
-* **Julia 3D Studio & Tools**: Copyright 2026 [Carlo Monjaraz](https://github.com/carlomontec) & Contributors.
-* **Software License**: All code is licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0) (see [`LICENSE`](LICENSE)).
+* **Music Video**: Radiohead – *House of Cards* (2008), directed by James Frost.
+* **Technical Direction**: [Aaron Koblin](http://www.aaronkoblin.com).
+* **Data License**: [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/) (Copyright 2008 Radiohead).
+* **Code License**: [Apache License 2.0](LICENSE) (Copyright 2026 Carlo Monjaraz & Contributors).

@@ -38,7 +38,7 @@ For full setup instructions, TOML configuration parameters, and TouchDesigner pi
 
 ## AI-Assisted Development Note
 
-This Julia 3D Studio, high-speed data loader, video export engine, and TouchDesigner integration were developed using **Gemini 3.7 Flash** (Google DeepMind) in pair-programming collaboration with Carlo Monjaraz as an exploratory case study in modernizing legacy creative coding datasets.
+This Julia 3D Studio, high-speed data loader and video export engine were developed using **Gemini 3.7 Flash** (Google DeepMind) as AI assisted programming by Carlo Monjaraz-Tec as an exploratory case study in modernizing legacy creative coding datasets.
 
 ---
 
